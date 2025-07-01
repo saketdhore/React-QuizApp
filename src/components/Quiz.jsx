@@ -7,7 +7,7 @@ const Quiz = () => {
   const [userAnswers, setUserAnswers] = useState([]);
   const [answerState, setAnswerState] = useState(''); // '' | 'answered' | 'correct' | 'wrong'
 
-  const activeQuestionIndex = answerState === '' ? userAnswers.length : userAnswers.length - 1;
+  const activeQuestionIndex =userAnswers.length;
   const quizIsComplete = activeQuestionIndex === QUESTIONS.length;
 
   const handleSelectAnswer = useCallback(
@@ -27,7 +27,7 @@ const Quiz = () => {
         }, 2000);
       }, 1000);
     },
-    [activeQuestionIndex]
+    []
   );
 
   const handleSkip = useCallback(() => handleSelectAnswer(null), [handleSelectAnswer]);
@@ -45,12 +45,9 @@ const Quiz = () => {
     <div id="quiz">
       <Question
         key={activeQuestionIndex}
-        question={QUESTIONS[activeQuestionIndex]}
-        answerState={answerState}
-        selectedAnswer={userAnswers[userAnswers.length - 1]}
+        index={activeQuestionIndex}
         onSelectAnswer={handleSelectAnswer}
         onTimeout={handleSkip}
-        activeQuestionIndex={activeQuestionIndex}
       />
     </div>
   );

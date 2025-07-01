@@ -1,41 +1,42 @@
 import { useRef } from "react";
 
 const Answers = ({ answers, selectedAnswer, answerState, onSelect }) => {
-    const shuffled = useRef();
+  const shuffledAnswers = useRef();
 
-    if (!shuffled.current) {
-        shuffled.current = [...answers];
-        shuffled.current.sort(() => Math.random() - 0.5);
-    }
+  // Shuffle once when first rendered
+  if (!shuffledAnswers.current) {
+    shuffledAnswers.current = [...answers].sort(() => Math.random() - 0.5);
+  }
 
-    return (
-        <ul id="answers">
-            {shuffled.current.map((answer) => {
-                let cssClassButton = "";
-                const isSelected = selectedAnswer === answer;
+  return (
+    <ul id="answers">
+      {shuffledAnswers.current.map((answer) => {
+        let cssClass = "";
 
-                if (answerState === "answered" && isSelected) {
-                    cssClassButton = "selected";
-                } else if (answerState === "correct" && isSelected) {
-                    cssClassButton = "correct";
-                } else if (answerState === "wrong" && isSelected) {
-                    cssClassButton = "wrong";
-                }
+        const isSelected = selectedAnswer === answer;
 
-                return (
-                    <li key={answer} className="answer">
-                        <button
-                            onClick={() => onSelect(answer)}
-                            className={cssClassButton}
-                            disabled={answerState !== ""}
-                        >
-                            {answer}
-                        </button>
-                    </li>
-                );
-            })}
-        </ul>
-    );
+        if (answerState === "answered" && isSelected) {
+          cssClass = "selected";
+        } else if (answerState === "correct" && isSelected) {
+          cssClass = "correct";
+        } else if (answerState === "wrong" && isSelected) {
+          cssClass = "wrong";
+        }
+
+        return (
+          <li key={answer} className="answer">
+            <button
+              onClick={() => onSelect(answer)}
+              className={cssClass}
+              disabled={answerState !== ""}
+            >
+              {answer}
+            </button>
+          </li>
+        );
+      })}
+    </ul>
+  );
 };
 
 export default Answers;
