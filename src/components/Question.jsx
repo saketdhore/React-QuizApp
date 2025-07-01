@@ -11,6 +11,14 @@ const Question = ({
     selectedAnswer: '',
     isCorrect: null
   });
+
+  let timer = 10000;
+  if (answer.selectedAnswer){
+    timer = 1000;
+  }
+  if(answer.isCorrect !==null){
+    timer =2000;
+  }
   const handleSelectAnswer = (answer) =>{
     setAnswer({selectedAnswer: answer, isCorrect: null});
 
@@ -33,7 +41,7 @@ const Question = ({
   }
   return (
     <div id="question">
-      <QuestionTimer timeout={10000} onTimeout={onTimeout} />
+      <QuestionTimer key={timer} timeout={timer} onTimeout={answer.selectedAnswer==='' ? onTimeout:null} mode={answerState}/>
       <h2>{QUESTIONS[index].id.toUpperCase()}: {QUESTIONS[index].text}</h2>
       <Answers
         key={QUESTIONS[index].id}
